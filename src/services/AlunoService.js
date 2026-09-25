@@ -4,15 +4,21 @@ const AlunoNaoEncontradoError = require("../errors/AlunoNaoEncontradoError");
 
 class AlunoService{
 
-    async findMany(page, pageSize){
-        //SELECT * FROM alunos
-        const alunos = await prisma.aluno.findMany({
-            skip: (page-1)*pageSize,
-            take: Number(pageSize)
-        });
-        return alunos;
+    async findMany(page, pageSize, orderBy, order){
+        //SELECT * FROM alunos ORDER BY orderBy order LIMIT pageSize OFFSET skip
+        const [alunos, total] = await Promise.all([
+            prisma.aluno.findMany({
+                skip: (page-1)*pageSize,
+                take: Number(pageSize),
+                orderBy: { [orderBy]: order }
+            }),
+            prisma.aluno.count()
+        ]);
+
+        return { alunos, total };
     }
-        async create(aluno){
+
+    async create(aluno){
         const {nome, email} = aluno;
         if(!nome || !email){
             throw new AlunoInvalidoError();
