@@ -38,6 +38,16 @@ class AlunoController{
             next(e);
         }
     }
+
+    async update(request, response, next){
+        try{
+            const {id} = alunoIdSchema.parse(request.params);
+            const aluno = await alunoService.update(id, request.body);
+            return response.status(200).json(aluno);
+        }catch(e){
+            next(e);
+        }
+    }
 }
 
 module.exports = new AlunoController();
