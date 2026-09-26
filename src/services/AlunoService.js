@@ -78,6 +78,16 @@ class AlunoService{
             throw e;
         }
     }
+
+    async delete(id){
+        //Verifica a existência antes de remover, reaproveitando a mesma
+        //exceção do findUnique/update para "aluno não encontrado".
+        await this.findUnique(id);
+
+        await prisma.aluno.delete({
+            where: { id }
+        });
+    }
 }
 
 module.exports = new AlunoService();

@@ -48,6 +48,16 @@ class AlunoController{
             next(e);
         }
     }
+
+    async delete(request, response, next){
+        try{
+            const {id} = alunoIdSchema.parse(request.params);
+            await alunoService.delete(id);
+            return response.status(204).send();
+        }catch(e){
+            next(e);
+        }
+    }
 }
 
 module.exports = new AlunoController();
