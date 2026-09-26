@@ -89,7 +89,7 @@ npm run dev
 
 ## 📚 API de Alunos
 
-Essa é a parte da aplicação que venho desenvolvendo ao longo da disciplina: uma API para cadastrar, listar, buscar, atualizar e remover alunos. Segue o padrão que aprendemos em aula — Controller cuida da requisição e da resposta, Service cuida da regra de negócio e do Prisma, e os erros de negócio (aluno não encontrado, dado inválido, email duplicado) são tratados por exceções próprias que caem num middleware central de erros.
+Essa é a aplicação desenvolvida para ser entregue antes da primeira avaliação: uma API para cadastrar, listar, buscar, atualizar e remover alunos. Segue o padrão que aprendemos em aula — Controller cuida da requisição e da resposta, Service cuida da regra de negócio e do Prisma, e os erros de negócio (aluno não encontrado, dado inválido, email duplicado) são tratados por exceções próprias que caem num middleware central de erros.
 
 ### Listando alunos — `GET /alunos`
 
