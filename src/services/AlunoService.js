@@ -6,7 +6,6 @@ const EmailJaCadastradoError = require("../errors/EmailJaCadastradoError");
 class AlunoService{
 
     async findMany(page, pageSize, orderBy, order){
-        //SELECT * FROM alunos ORDER BY orderBy order LIMIT pageSize OFFSET skip
         const [alunos, total] = await Promise.all([
             prisma.aluno.findMany({
                 skip: (page-1)*pageSize,
@@ -49,8 +48,7 @@ class AlunoService{
         const {nome, email} = dadosAtualizacao;
 
         //Dados inválidos: corpo vazio ou sem nenhum campo válido para atualizar.
-        //Reaproveita AlunoInvalidoError, pois é a mesma natureza de erro do create
-        //(dado de entrada ausente/insuficiente), só que agora no update.
+        //Reaproveita do AlunoInvalidoError, é a mesma natureza de erro do create
         if(!nome && !email){
             throw new AlunoInvalidoError("Informe nome e/ou email para atualizar");
         }
@@ -69,9 +67,7 @@ class AlunoService{
             });
             return alunoAtualizado;
         }catch(e){
-            //P2002: violação de constraint @unique do Prisma (email duplicado).
             //Merece exceção própria, pois é um erro de conflito de dado,
-            //diferente de "dado ausente" (AlunoInvalidoError) ou "não encontrado".
             if(e.code === "P2002"){
                 throw new EmailJaCadastradoError();
             }
@@ -80,8 +76,7 @@ class AlunoService{
     }
 
     async delete(id){
-        //Verifica a existência antes de remover, reaproveitando a mesma
-        //exceção do findUnique/update para "aluno não encontrado".
+        //Verifica a existência antes de remover, reaproveitando a mesma exceção do findUnique/update para aluno não encontrado.
         await this.findUnique(id);
 
         await prisma.aluno.delete({
