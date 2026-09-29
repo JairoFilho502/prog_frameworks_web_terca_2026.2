@@ -43,7 +43,7 @@ class AlunoController{
         try{
             const {id} = alunoIdSchema.parse(request.params);
             const aluno = await alunoService.update(id, request.body);
-            return response.status(200).json(aluno);
+            return response.status(201).json(aluno); // 201 sucesso e criou novo recurso
         }catch(e){
             next(e);
         }
@@ -53,7 +53,7 @@ class AlunoController{
         try{
             const {id} = alunoIdSchema.parse(request.params);
             await alunoService.delete(id);
-            return response.status(204).send();
+            return response.status(204).send(); // status 204 sucesso sem payload
         }catch(e){
             next(e);
         }

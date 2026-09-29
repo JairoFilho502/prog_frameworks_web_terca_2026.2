@@ -50,7 +50,7 @@ class AlunoService{
         //Dados inválidos: corpo vazio ou sem nenhum campo válido para atualizar.
         //Reaproveita do AlunoInvalidoError, é a mesma natureza de erro do create
         if(!nome && !email){
-            throw new AlunoInvalidoError("Informe nome e/ou email para atualizar");
+            throw new AlunoInvalidoError("Informe nome e/ou email para atualizar"); //herdando do error
         }
 
         //Aluno não encontrado: reaproveita a mesma exceção do findUnique.
@@ -76,7 +76,6 @@ class AlunoService{
     }
 
     async delete(id){
-        //Verifica a existência antes de remover, reaproveitando a mesma exceção do findUnique/update para aluno não encontrado.
         await this.findUnique(id);
 
         await prisma.aluno.delete({
